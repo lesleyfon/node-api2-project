@@ -4,6 +4,12 @@ const PORT = 8080;
 
 const app = express();
 
+//Routers
+const postRouters = require("./routers/postRouter");
+
+app.use('/', postRouters)
+
+
 app.use(express.json());
 
 app.get('/', (req, res)=>{
