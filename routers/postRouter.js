@@ -79,4 +79,33 @@ router.delete('/:id', (req, res)=>{
     }
 })
 
+//Update
+router.put('/:id', (req, res)=>{
+    
+    const { title, contents } =req.body
+    const id = req.params.id
+    
+    if(!title || !contents){
+        res.status(400).json({Error: 'Please Provide title and contents'});
+    } 
+    else if (!id){
+        res.status(400).json({Error: 'Please Provide an Id'});
+    }
+    else{
+        db.update(id, {title, contents})
+            .then(response => {
+                if(response === 0 ){
+                    res.status(404).send({message: "Please provide all the necessary information for the request "})
+                }else{
+                    res.status(201).send({
+                        message: 'Put successful',
+                        post: response
+                    });
+                }
+            })
+            .catch(err =>{
+                res.status(500).json({error: "There was an error while Updating the post to the database"})
+            })
+    }
+});
 module.exports = router;
