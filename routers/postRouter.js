@@ -55,5 +55,28 @@ router.post('/', (req, res)=>{
                 res.status(500).json({error: "There was an error while saving the post to the database"})
             })
     }
+});
+
+//Delete
+
+router.delete('/:id', (req, res)=>{
+    const id = req.params.id;
+
+    if(!id){
+        res.status(404).send({message: `Error, You didn't provide an id for the delete request`})
+    } else{
+        db.remove(id)
+            .then(response => {
+                if(response  === 0){
+                    res.status(404).send({message: "The post with the specified ID does not exist."})
+                } else{
+                    res.status(200).send({
+                        message: 'Delete successful',
+                    });
+                }
+            })
+            .catch(err => res.status(500).send({message: "The post information could not be retrieved." }))
+    }
 })
+
 module.exports = router;
