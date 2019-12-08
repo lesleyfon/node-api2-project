@@ -3,6 +3,10 @@ const express = require('express');
 const router = express.Router();
 
 const db = require('./../data/db');
+const commentsRouter = require('./commentsRouter');
+
+
+router.use('/:id/comments', commentsRouter)
 
 //Get endpoint
 router.get('/', (req, res)=>{
@@ -81,7 +85,7 @@ router.delete('/:id', (req, res)=>{
 
 //Update
 router.put('/:id', (req, res)=>{
-    
+
     const { title, contents } =req.body
     const id = req.params.id
     
